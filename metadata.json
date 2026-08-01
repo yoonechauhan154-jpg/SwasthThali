@@ -1,0 +1,6 @@
+{
+  "name": "SwasthThali - AI Indian Calorie & Macro Counter",
+  "description": "FREE AI-powered Indian food calorie counter, thali deconstructor, oil & ghee slider, and macro tracker powered by Gemini 3.6 Flash.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
