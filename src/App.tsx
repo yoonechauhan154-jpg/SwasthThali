@@ -1,11 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Navbar } from './components/Navbar';
 import { FoodScanner } from './components/FoodScanner';
 import { Dashboard } from './components/Dashboard';
 import { AnalyticsView } from './components/AnalyticsView';
 import { FoodDatabaseBrowser } from './components/FoodDatabaseBrowser';
 import { Footer } from './components/Footer';
+import { BlogListPage } from './pages/BlogListPage';
+import { BlogPostPage } from './pages/BlogPostPage';
+import { FaqPage } from './pages/FaqPage';
+import { AboutPage } from './pages/AboutPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsPage } from './pages/TermsPage';
 import { UserProfile, MealLogEntry } from './types';
+
+// Scroll to top helper on route navigation
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'database' | 'dashboard' | 'scanner' | 'analytics'>('database');
@@ -14,7 +31,11 @@ export default function App() {
   const [profile, setProfile] = useState<UserProfile>(() => {
     const saved = localStorage.getItem('swasth_profile');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* ignore */ }
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        /* ignore */
+      }
     }
     return {
       name: 'Yoone',
@@ -29,7 +50,6 @@ export default function App() {
     };
   });
 
-  // Sample initial logs for today
   const [mealLogs, setMealLogs] = useState<MealLogEntry[]>(() => {
     const saved = localStorage.getItem('swasth_meal_logs');
     if (saved) {
@@ -38,7 +58,9 @@ export default function App() {
         if (Array.isArray(parsed) && parsed.length > 0) {
           return parsed.filter((entry) => entry && Array.isArray(entry.items));
         }
-      } catch (e) { /* ignore */ }
+      } catch (e) {
+        /* ignore */
+      }
     }
     return [
       {
@@ -143,38 +165,60 @@ export default function App() {
   const totalTodayProtein = Math.round((mealLogs || []).reduce((acc, curr) => acc + (curr?.totalProtein || 0), 0));
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col antialiased selection:bg-amber-500 selection:text-slate-950">
-      
-      {/* Navbar Header */}
-      <Navbar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        profile={profile}
-        totalTodayCalories={totalTodayCalories}
-        totalTodayProtein={totalTodayProtein}
-      />
-
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {activeTab === 'database' && <FoodDatabaseBrowser searchQuery={searchQuery} />}
-
-        {activeTab === 'dashboard' && (
-          <Dashboard
+    <HelmetProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col antialiased selection:bg-amber-500 selection:text-slate-950">
+          {/* Navbar Header */}
+          <Navbar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
             profile={profile}
-            setProfile={setProfile}
-            mealLogs={mealLogs}
-            setMealLogs={setMealLogs}
-            onSaveMealLog={handleSaveMealLog}
+            totalTodayCalories={totalTodayCalories}
+            totalTodayProtein={totalTodayProtein}
           />
-        )}
 
-        {activeTab === 'scanner' && <FoodScanner onSaveMealLog={handleSaveMealLog} />}
+          {/* Main Content Area */}
+          <main className="flex-1 w-full">
+            <Routes>
+              {/* Home Route (Tabbed App Interface) */}
+              <Route
+                path="/"
+                element={
+                  <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+                    {activeTab === 'database' && <FoodDatabaseBrowser searchQuery={searchQuery} />}
 
-        {activeTab === 'analytics' && <AnalyticsView profile={profile} mealLogs={mealLogs} />}
-      </main>
+                    {activeTab === 'dashboard' && (
+                      <Dashboard
+                        profile={profile}
+                        setProfile={setProfile}
+                        mealLogs={mealLogs}
+                        setMealLogs={setMealLogs}
+                        onSaveMealLog={handleSaveMealLog}
+                      />
+                    )}
 
-      {/* Footer */}
-      <Footer onSelectDish={handleSelectFooterDish} />
-    </div>
+                    {activeTab === 'scanner' && <FoodScanner onSaveMealLog={handleSaveMealLog} />}
+
+                    {activeTab === 'analytics' && <AnalyticsView profile={profile} mealLogs={mealLogs} />}
+                  </div>
+                }
+              />
+
+              {/* SEO Content System Routes */}
+              <Route path="/blog" element={<BlogListPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <Route path="/faq" element={<FaqPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+            </Routes>
+          </main>
+
+          {/* Footer */}
+          <Footer onSelectDish={handleSelectFooterDish} />
+        </div>
+      </Router>
+    </HelmetProvider>
   );
 }

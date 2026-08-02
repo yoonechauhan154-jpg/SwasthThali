@@ -101,3 +101,16 @@ export interface UserProfile {
   waterGoalMl: number;
   waterDrankMl: number;
 }
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  metaDescription: string;
+  targetKeyword: string;
+  category: 'Calorie Guides' | 'Protein & Macros' | 'Regional Cuisine' | 'Healthy Cooking & Oils' | 'Health & Weight Loss';
+  publishDate: string;
+  readTimeMinutes: number;
+  content: string;
+  relatedFoodIds: string[];
+}
+

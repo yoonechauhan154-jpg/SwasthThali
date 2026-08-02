@@ -1,5 +1,6 @@
 import React from 'react';
-import { Camera, Utensils, BarChart3, Database, Sparkles, FileText, Flame, ShieldAlert, Award } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Camera, Utensils, BarChart3, Database, BookOpen, Flame } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface NavbarProps {
@@ -17,15 +18,24 @@ export const Navbar: React.FC<NavbarProps> = ({
   totalTodayCalories,
   totalTodayProtein
 }) => {
-  const caloriePercent = Math.min(100, Math.round((totalTodayCalories / profile.dailyCalorieGoal) * 100));
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isMainAppPage = location.pathname === '/';
+
+  const handleTabClick = (tab: 'scanner' | 'dashboard' | 'analytics' | 'database') => {
+    setActiveTab(tab);
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('database')}>
+          <Link to="/" onClick={() => handleTabClick('database')} className="flex items-center space-x-3 cursor-pointer">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-orange-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-orange-500/20">
               <Utensils className="w-5 h-5" />
             </div>
@@ -40,14 +50,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <p className="text-[11px] text-slate-400 font-medium">Indian Calorie & Macro Engine</p>
             </div>
-          </div>
+          </Link>
 
           {/* Nav Tabs */}
-          <nav className="hidden md:flex items-center space-x-1 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700/60">
+          <nav className="hidden md:flex items-center space-x-1 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700/60 text-xs sm:text-sm">
             <button
-              onClick={() => setActiveTab('database')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                activeTab === 'database'
+              onClick={() => handleTabClick('database')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                isMainAppPage && activeTab === 'database'
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
                   : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
               }`}
@@ -57,9 +67,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => setActiveTab('dashboard')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                activeTab === 'dashboard'
+              onClick={() => handleTabClick('dashboard')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                isMainAppPage && activeTab === 'dashboard'
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
                   : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
               }`}
@@ -69,9 +79,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => setActiveTab('scanner')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                activeTab === 'scanner'
+              onClick={() => handleTabClick('scanner')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                isMainAppPage && activeTab === 'scanner'
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
                   : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
               }`}
@@ -81,9 +91,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => setActiveTab('analytics')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                activeTab === 'analytics'
+              onClick={() => handleTabClick('analytics')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                isMainAppPage && activeTab === 'analytics'
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
                   : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
               }`}
@@ -91,6 +101,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               <BarChart3 className="w-4 h-4" />
               <span>Analytics</span>
             </button>
+
+            <Link
+              to="/blog"
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                location.pathname.startsWith('/blog')
+                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Blog</span>
+            </Link>
           </nav>
 
           {/* Today Stats Pill */}
@@ -112,33 +134,40 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Mobile Sub-Navigation Bar */}
         <div className="md:hidden flex items-center justify-around py-2 border-t border-slate-800 text-xs font-medium text-slate-300 overflow-x-auto">
           <button
-            onClick={() => setActiveTab('database')}
-            className={`flex flex-col items-center py-1 px-2 ${activeTab === 'database' ? 'text-orange-400 font-bold' : ''}`}
+            onClick={() => handleTabClick('database')}
+            className={`flex flex-col items-center py-1 px-2 ${isMainAppPage && activeTab === 'database' ? 'text-orange-400 font-bold' : ''}`}
           >
             <Database className="w-4 h-4 mb-0.5" />
             <span>Foods</span>
           </button>
           <button
-            onClick={() => setActiveTab('dashboard')}
-            className={`flex flex-col items-center py-1 px-2 ${activeTab === 'dashboard' ? 'text-orange-400 font-bold' : ''}`}
+            onClick={() => handleTabClick('dashboard')}
+            className={`flex flex-col items-center py-1 px-2 ${isMainAppPage && activeTab === 'dashboard' ? 'text-orange-400 font-bold' : ''}`}
           >
             <Utensils className="w-4 h-4 mb-0.5" />
             <span>Diary</span>
           </button>
           <button
-            onClick={() => setActiveTab('scanner')}
-            className={`flex flex-col items-center py-1 px-2 ${activeTab === 'scanner' ? 'text-orange-400 font-bold' : ''}`}
+            onClick={() => handleTabClick('scanner')}
+            className={`flex flex-col items-center py-1 px-2 ${isMainAppPage && activeTab === 'scanner' ? 'text-orange-400 font-bold' : ''}`}
           >
             <Camera className="w-4 h-4 mb-0.5" />
             <span>Scanner</span>
           </button>
           <button
-            onClick={() => setActiveTab('analytics')}
-            className={`flex flex-col items-center py-1 px-2 ${activeTab === 'analytics' ? 'text-orange-400 font-bold' : ''}`}
+            onClick={() => handleTabClick('analytics')}
+            className={`flex flex-col items-center py-1 px-2 ${isMainAppPage && activeTab === 'analytics' ? 'text-orange-400 font-bold' : ''}`}
           >
             <BarChart3 className="w-4 h-4 mb-0.5" />
             <span>Trends</span>
           </button>
+          <Link
+            to="/blog"
+            className={`flex flex-col items-center py-1 px-2 ${location.pathname.startsWith('/blog') ? 'text-orange-400 font-bold' : ''}`}
+          >
+            <BookOpen className="w-4 h-4 mb-0.5" />
+            <span>Blog</span>
+          </Link>
         </div>
       </div>
     </header>

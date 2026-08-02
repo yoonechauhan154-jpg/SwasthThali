@@ -1,11 +1,27 @@
 import React from 'react';
-import { Utensils, Award, Heart, Sparkles, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Utensils, Heart, Award } from 'lucide-react';
 
 interface FooterProps {
   onSelectDish?: (dishName: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onSelectDish }) => {
+  const keywordLinks = [
+    { name: 'Roti Calories', slug: 'how-many-calories-in-1-roti-chapati-with-without-ghee' },
+    { name: 'Dal Tadka Calories', slug: 'dal-tadka-calories-and-protein-complete-katori-guide' },
+    { name: 'Veg Biryani Calories', slug: 'veg-biryani-calories-per-plate-hyderabadi-style' },
+    { name: 'Palak Paneer Macros', slug: 'palak-paneer-vs-paneer-butter-masala-calories-compared' },
+    { name: 'Samosa Air Fryer', slug: 'samosa-calories-deep-fried-vs-baked-air-fried' },
+    { name: 'Rice vs Brown Rice', slug: 'steamed-rice-vs-brown-rice-which-is-better-for-weight-loss' },
+    { name: 'Idli & Dosa Calories', slug: 'idli-and-dosa-calories-south-indian-breakfast-guide' },
+    { name: 'Chole & Rajma Protein', slug: 'chole-rajma-calories-protein-complete-guide' },
+    { name: 'Poha Calories', slug: 'poha-calories-with-peanuts-healthy-or-not' },
+    { name: 'Gulab Jamun Calories', slug: 'gulab-jamun-and-indian-sweets-the-real-calorie-count' },
+    { name: '100g Veg Diet Plan', slug: 'high-protein-vegetarian-indian-diet-plan-100g-protein-guide' },
+    { name: 'Ghee vs Oil Math', slug: 'ghee-vs-oil-which-has-fewer-calories-for-indian-cooking' }
+  ];
+
   return (
     <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -22,46 +38,41 @@ export const Footer: React.FC<FooterProps> = ({ onSelectDish }) => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center space-x-1">
-              <Award className="w-3.5 h-3.5" />
-              <span>₹0 - ₹500/mo Infrastructure Cost</span>
-            </span>
+          {/* Quick Links */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-300">
+            <Link to="/blog" className="hover:text-amber-400 transition-colors">Blog</Link>
+            <span>•</span>
+            <Link to="/faq" className="hover:text-amber-400 transition-colors">FAQ</Link>
+            <span>•</span>
+            <Link to="/about" className="hover:text-amber-400 transition-colors">About Us</Link>
+            <span>•</span>
+            <Link to="/privacy-policy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
+            <span>•</span>
+            <Link to="/terms" className="hover:text-amber-400 transition-colors">Terms & Conditions</Link>
           </div>
         </div>
 
-        {/* SEO Links & Keywords Strip */}
+        {/* SEO Article Keywords Strip */}
         <div className="space-y-2">
           <span className="font-bold text-slate-300 block text-[11px] uppercase tracking-wider">
-            Popular Indian Calorie Searches & Dishes
+            Popular Indian Calorie & Nutrition Guides
           </span>
           <div className="flex flex-wrap gap-2 text-[11px]">
-            {[
-              'Roti',
-              'Dal Tadka',
-              'Paneer Butter Masala',
-              'Chole Bhature',
-              'Sambar',
-              'Poha',
-              'Dosa',
-              'Biryani',
-              'Idli',
-              'Gulab Jamun'
-            ].map((kw, i) => (
-              <button
+            {keywordLinks.map((item, i) => (
+              <Link
                 key={i}
-                onClick={() => onSelectDish?.(kw)}
-                className="hover:text-amber-400 cursor-pointer bg-slate-900 hover:bg-slate-800 transition-colors px-2.5 py-1 rounded border border-slate-800 text-left"
+                to={`/blog/${item.slug}`}
+                className="hover:text-amber-400 bg-slate-900 hover:bg-slate-800 transition-colors px-2.5 py-1 rounded border border-slate-800 text-left"
               >
-                {kw}
-              </button>
+                {item.name}
+              </Link>
             ))}
           </div>
         </div>
 
         {/* Bottom copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 pt-4 border-t border-slate-900">
-          <p>© 2026 SwasthThali. Open-Source Free MVP Blueprint powered by Gemini 3.6 Flash & ICMR Nutrition Engine.</p>
+          <p>© 2026 SwasthThali. Open-Source Free Nutrition Engine powered by Gemini 3.6 Flash & ICMR Standard.</p>
           <div className="flex items-center space-x-1 mt-2 sm:mt-0 text-slate-400">
             <span>Crafted for Indian Diets with</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
