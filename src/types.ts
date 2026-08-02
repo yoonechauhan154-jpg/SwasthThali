@@ -86,7 +86,7 @@ export interface SEOKeywordGroup {
   category: string;
   title: string;
   keywords: string[];
-  targetPage: string;
+  targetPage?: string;
   description: string;
 }
 

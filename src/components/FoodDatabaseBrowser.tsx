@@ -3,8 +3,18 @@ import { Search, Filter, Database, Utensils, Flame, Info, Check, Sparkles } from
 import { FoodItem } from '../types';
 import { INDIAN_FOOD_DATABASE, calculateAdjustedMacros } from '../data/indianFoodDatabase';
 
-export const FoodDatabaseBrowser: React.FC = () => {
-  const [search, setSearch] = useState('');
+interface FoodDatabaseBrowserProps {
+  searchQuery?: string;
+}
+
+export const FoodDatabaseBrowser: React.FC<FoodDatabaseBrowserProps> = ({ searchQuery = '' }) => {
+  const [search, setSearch] = useState(searchQuery);
+
+  React.useEffect(() => {
+    if (searchQuery !== undefined) {
+      setSearch(searchQuery);
+    }
+  }, [searchQuery]);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedRegion, setSelectedRegion] = useState<string>('All');
   const [inspectFood, setInspectFood] = useState<FoodItem | null>(null);

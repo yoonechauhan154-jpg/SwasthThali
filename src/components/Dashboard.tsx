@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Flame, Droplet, Plus, Trash2, Search, Utensils, CheckCircle2, AlertCircle, Heart } from 'lucide-react';
+import { Flame, Droplet, Plus, Trash2, Search, Utensils, CheckCircle2, AlertCircle, Heart, Download, Settings, Sliders } from 'lucide-react';
 import { MealLogEntry, UserProfile, FoodItem } from '../types';
 import { INDIAN_FOOD_DATABASE, calculateAdjustedMacros } from '../data/indianFoodDatabase';
+import { ProteinOptimizer } from './ProteinOptimizer';
 
 interface DashboardProps {
   profile: UserProfile;
@@ -23,16 +24,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [quickGrams, setQuickGrams] = useState(150);
   const [quickOil, setQuickOil] = useState(1.0);
   const [quickGhee, setQuickGhee] = useState(0.5);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+  // Profile Form state
+  const [editName, setEditName] = useState(profile.name);
+  const [editCalorie, setEditCalorie] = useState(profile.dailyCalorieGoal);
+  const [editProtein, setEditProtein] = useState(profile.proteinGoal);
+  const [editCarbs, setEditCarbs] = useState(profile.carbsGoal);
+  const [editFat, setEditFat] = useState(profile.fatGoal);
+  const [editFiber, setEditFiber] = useState(profile.fiberGoal);
+  const [editDiet, setEditDiet] = useState(profile.dietaryPref);
 
   // Totals for today
-  const totalCalories = mealLogs.reduce((acc, curr) => acc + curr.totalCalories, 0);
-  const totalProtein = Number(mealLogs.reduce((acc, curr) => acc + curr.totalProtein, 0).toFixed(1));
-  const totalCarbs = Number(mealLogs.reduce((acc, curr) => acc + curr.totalCarbs, 0).toFixed(1));
-  const totalFat = Number(mealLogs.reduce((acc, curr) => acc + curr.totalFat, 0).toFixed(1));
-  const totalFiber = Number(mealLogs.reduce((acc, curr) => acc + curr.totalFiber, 0).toFixed(1));
+  const totalCalories = (mealLogs || []).reduce((acc, curr) => acc + (curr?.totalCalories || 0), 0);
+  const totalProtein = Number((mealLogs || []).reduce((acc, curr) => acc + (curr?.totalProtein || 0), 0).toFixed(1));
+  const totalCarbs = Number((mealLogs || []).reduce((acc, curr) => acc + (curr?.totalCarbs || 0), 0).toFixed(1));
+  const totalFat = Number((mealLogs || []).reduce((acc, curr) => acc + (curr?.totalFat || 0), 0).toFixed(1));
+  const totalFiber = Number((mealLogs || []).reduce((acc, curr) => acc + (curr?.totalFiber || 0), 0).toFixed(1));
 
-  const caloriePercent = Math.min(100, Math.round((totalCalories / profile.dailyCalorieGoal) * 100));
-  const proteinPercent = Math.min(100, Math.round((totalProtein / profile.proteinGoal) * 100));
+  const caloriePercent = Math.min(100, Math.round((totalCalories / (profile?.dailyCalorieGoal || 2000)) * 100));
+  const proteinPercent = Math.min(100, Math.round((totalProtein / (profile?.proteinGoal || 75)) * 100));
   const carbsPercent = Math.min(100, Math.round((totalCarbs / profile.carbsGoal) * 100));
   const fatPercent = Math.min(100, Math.round((totalFat / profile.fatGoal) * 100));
   const fiberPercent = Math.min(100, Math.round((totalFiber / profile.fiberGoal) * 100));
@@ -46,6 +57,46 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const deleteMealLog = (id: string) => {
     setMealLogs((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleExportCSV = () => {
+    if (mealLogs.length === 0) return;
+    const headers = ['Timestamp', 'Meal Type', 'Dish Name', 'Calories (kcal)', 'Protein (g)', 'Carbs (g)', 'Fat (g)', 'Fiber (g)', 'Oil (tsp)', 'Ghee (tsp)'];
+    const rows = mealLogs.map((log) => [
+      `"${log.timestamp}"`,
+      `"${log.mealType}"`,
+      `"${log.dishName}"`,
+      log.totalCalories,
+      log.totalProtein,
+      log.totalCarbs,
+      log.totalFat,
+      log.totalFiber,
+      log.totalOilTsp,
+      log.totalGheeTsp
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `swasththali_meal_log_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleSaveProfile = () => {
+    setProfile({
+      ...profile,
+      name: editName,
+      dailyCalorieGoal: editCalorie,
+      proteinGoal: editProtein,
+      carbsGoal: editCarbs,
+      fatGoal: editFat,
+      fiberGoal: editFiber,
+      dietaryPref: editDiet
+    });
+    setShowSettingsModal(false);
   };
 
   const handleQuickAdd = () => {
@@ -109,15 +160,27 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs">
-            <span className="text-slate-400">Target Goal:</span>
-            <input
-              type="number"
-              value={profile.dailyCalorieGoal}
-              onChange={(e) => setProfile({ ...profile, dailyCalorieGoal: Number(e.target.value) || 2000 })}
-              className="w-20 bg-slate-800 border border-slate-700 text-white rounded px-2 py-1 text-center font-bold"
-            />
-            <span className="text-slate-400">kcal</span>
+          <div className="flex items-center space-x-3 text-xs">
+            <button
+              onClick={() => {
+                setEditName(profile.name);
+                setEditCalorie(profile.dailyCalorieGoal);
+                setEditProtein(profile.proteinGoal);
+                setEditCarbs(profile.carbsGoal);
+                setEditFat(profile.fatGoal);
+                setEditFiber(profile.fiberGoal);
+                setEditDiet(profile.dietaryPref);
+                setShowSettingsModal(true);
+              }}
+              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-lg font-semibold flex items-center space-x-1.5 transition-colors"
+            >
+              <Settings className="w-3.5 h-3.5 text-amber-400" />
+              <span>Diet Profile & Goals</span>
+            </button>
+            <div className="flex items-center space-x-1.5">
+              <span className="text-slate-400">Target:</span>
+              <span className="font-extrabold text-amber-400 text-sm">{profile.dailyCalorieGoal} kcal</span>
+            </div>
           </div>
         </div>
 
@@ -237,6 +300,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
+      {/* Vegetarian Protein Optimizer */}
+      <ProteinOptimizer
+        mealLogs={mealLogs}
+        proteinGoal={profile.proteinGoal}
+        onSaveMealLog={onSaveMealLog}
+      />
+
       {/* Quick Search & Manual Logger Bar */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
         <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center space-x-2">
@@ -337,10 +407,24 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       {/* Today's Meal Log Timeline */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-        <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center justify-between">
-          <span>Today's Meal Diary ({mealLogs.length} Entries)</span>
-          <span className="text-xs font-normal text-slate-400">Sorted by time logged</span>
-        </h3>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+            <span>Today's Meal Diary ({mealLogs.length} Entries)</span>
+          </h3>
+
+          <div className="flex items-center space-x-2">
+            {mealLogs.length > 0 && (
+              <button
+                onClick={handleExportCSV}
+                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 text-xs font-bold flex items-center space-x-1.5 transition-colors"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Export CSV Diary</span>
+              </button>
+            )}
+            <span className="text-xs text-slate-400">Sorted by time</span>
+          </div>
+        </div>
 
         {mealLogs.length === 0 ? (
           <div className="text-center py-10 border border-dashed border-slate-800 rounded-xl text-slate-500 text-xs">
@@ -376,10 +460,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
                 {/* Sub-items */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
-                  {log.items.map((sub, i) => (
+                  {(log.items || []).map((sub, i) => (
                     <div key={i} className="bg-slate-900/50 p-2 rounded border border-slate-800 flex justify-between">
-                      <span>{sub.foodName} ({sub.grams}g)</span>
-                      <span className="text-amber-300 font-semibold">{sub.calories} kcal • {sub.oilTsp + sub.gheeTsp} tsp fat</span>
+                      <span>{sub?.foodName || 'Item'} ({sub?.grams || 0}g)</span>
+                      <span className="text-amber-300 font-semibold">{sub?.calories ?? 0} kcal • {(sub?.oilTsp || 0) + (sub?.gheeTsp || 0)} tsp fat</span>
                     </div>
                   ))}
                 </div>
@@ -394,6 +478,101 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         )}
       </div>
+
+      {/* Profile & Diet Goals Settings Modal */}
+      {showSettingsModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-md w-full space-y-5 relative shadow-2xl">
+            <button
+              onClick={() => setShowSettingsModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white text-sm"
+            >
+              ✕
+            </button>
+
+            <div className="flex items-center space-x-2 border-b border-slate-800 pb-3">
+              <Sliders className="w-5 h-5 text-amber-400" />
+              <h3 className="text-lg font-bold text-white">Daily Diet Profile & Macro Goals</h3>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="text-slate-300 block mb-1 font-medium">User Name:</label>
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 font-semibold"
+                />
+              </div>
+
+              <div>
+                <label className="text-slate-300 block mb-1 font-medium">Dietary Preference:</label>
+                <select
+                  value={editDiet}
+                  onChange={(e) => setEditDiet(e.target.value as any)}
+                  className="w-full bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 font-semibold"
+                >
+                  <option value="veg">Pure Vegetarian (Shuddh Shakahari)</option>
+                  <option value="non_veg">Non-Vegetarian</option>
+                  <option value="eggetarian">Eggetarian</option>
+                  <option value="jain">Jain Diet (No Onion/Garlic/Root)</option>
+                  <option value="vegan">Vegan</option>
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-slate-300 block mb-1 font-medium">Daily Calorie Goal (kcal):</label>
+                  <input
+                    type="number"
+                    value={editCalorie}
+                    onChange={(e) => setEditCalorie(Number(e.target.value) || 2000)}
+                    className="w-full bg-slate-800 border border-slate-700 text-amber-400 rounded-lg px-3 py-2 font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-slate-300 block mb-1 font-medium">Protein Target (g):</label>
+                  <input
+                    type="number"
+                    value={editProtein}
+                    onChange={(e) => setEditProtein(Number(e.target.value) || 75)}
+                    className="w-full bg-slate-800 border border-slate-700 text-emerald-400 rounded-lg px-3 py-2 font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-slate-300 block mb-1 font-medium">Carbs Target (g):</label>
+                  <input
+                    type="number"
+                    value={editCarbs}
+                    onChange={(e) => setEditCarbs(Number(e.target.value) || 250)}
+                    className="w-full bg-slate-800 border border-slate-700 text-amber-400 rounded-lg px-3 py-2 font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-slate-300 block mb-1 font-medium">Fat Target (g):</label>
+                  <input
+                    type="number"
+                    value={editFat}
+                    onChange={(e) => setEditFat(Number(e.target.value) || 55)}
+                    className="w-full bg-slate-800 border border-slate-700 text-red-400 rounded-lg px-3 py-2 font-bold"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={handleSaveProfile}
+              className="w-full py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition-colors"
+            >
+              Save Goals & Profile
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

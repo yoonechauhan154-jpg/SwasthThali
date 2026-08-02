@@ -31,15 +31,15 @@ export const MealCalculatorCard: React.FC<MealCalculatorCardProps> = ({
 }) => {
   const [mealType, setMealType] = useState<MealType>('lunch');
   const [items, setItems] = useState(
-    initialItems.map((item, idx) => ({
+    (initialItems || []).map((item, idx) => ({
       id: `item-${idx}-${Date.now()}`,
-      foodName: item.dishName,
-      hindiName: item.hindiName,
-      matchedFood: INDIAN_FOOD_DATABASE.find((f) => f.id === item.matchedFoodId) || INDIAN_FOOD_DATABASE[0],
-      grams: item.estimatedGrams || 150,
-      oilTsp: item.oilTsp || 1.0,
-      gheeTsp: item.gheeTsp || 0.5,
-      cookingMethod: (item.cookingMethod || 'home') as CookingMethod,
+      foodName: item?.dishName || 'Food Item',
+      hindiName: item?.hindiName,
+      matchedFood: INDIAN_FOOD_DATABASE.find((f) => f.id === item?.matchedFoodId) || INDIAN_FOOD_DATABASE[0],
+      grams: item?.estimatedGrams || 150,
+      oilTsp: item?.oilTsp ?? 1.0,
+      gheeTsp: item?.gheeTsp ?? 0.5,
+      cookingMethod: (item?.cookingMethod || 'home') as CookingMethod,
       isMothersLove: false
     }))
   );
@@ -70,7 +70,7 @@ export const MealCalculatorCard: React.FC<MealCalculatorCardProps> = ({
           return {
             ...it,
             isMothersLove: nextLove,
-            gheeTsp: nextLove ? Number((it.gheeTsp + 0.5).toFixed(1)) : Math.max(0, Number((it.gheeTsp - 0.5).toFixed(1)))
+            gheeTsp: nextLove ? Number(((it.gheeTsp || 0) + 0.5).toFixed(1)) : Math.max(0, Number(((it.gheeTsp || 0) - 0.5).toFixed(1)))
           };
         }
         return it;
@@ -83,47 +83,47 @@ export const MealCalculatorCard: React.FC<MealCalculatorCardProps> = ({
   };
 
   // Calculate live overall totals across all items
-  const calculatedItems = items.map((it) => {
+  const calculatedItems = (items || []).map((it) => {
     const macros = calculateAdjustedMacros(
       it.matchedFood,
       it.grams,
       it.oilTsp,
       it.gheeTsp,
       it.cookingMethod
-    );
+    ) || { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, addedOilTsp: 0, addedGheeTsp: 0 };
     return {
       ...it,
       macros
     };
   });
 
-  const totalCalories = calculatedItems.reduce((acc, curr) => acc + curr.macros.calories, 0);
-  const totalProtein = Number(calculatedItems.reduce((acc, curr) => acc + curr.macros.protein, 0).toFixed(1));
-  const totalCarbs = Number(calculatedItems.reduce((acc, curr) => acc + curr.macros.carbs, 0).toFixed(1));
-  const totalFat = Number(calculatedItems.reduce((acc, curr) => acc + curr.macros.fat, 0).toFixed(1));
-  const totalFiber = Number(calculatedItems.reduce((acc, curr) => acc + curr.macros.fiber, 0).toFixed(1));
-  const totalOilTsp = Number(calculatedItems.reduce((acc, curr) => acc + curr.oilTsp, 0).toFixed(1));
-  const totalGheeTsp = Number(calculatedItems.reduce((acc, curr) => acc + curr.gheeTsp, 0).toFixed(1));
+  const totalCalories = calculatedItems.reduce((acc, curr) => acc + (curr.macros?.calories || 0), 0);
+  const totalProtein = Number(calculatedItems.reduce((acc, curr) => acc + (curr.macros?.protein || 0), 0).toFixed(1));
+  const totalCarbs = Number(calculatedItems.reduce((acc, curr) => acc + (curr.macros?.carbs || 0), 0).toFixed(1));
+  const totalFat = Number(calculatedItems.reduce((acc, curr) => acc + (curr.macros?.fat || 0), 0).toFixed(1));
+  const totalFiber = Number(calculatedItems.reduce((acc, curr) => acc + (curr.macros?.fiber || 0), 0).toFixed(1));
+  const totalOilTsp = Number(calculatedItems.reduce((acc, curr) => acc + (curr.oilTsp || 0), 0).toFixed(1));
+  const totalGheeTsp = Number(calculatedItems.reduce((acc, curr) => acc + (curr.gheeTsp || 0), 0).toFixed(1));
 
   const handleSave = () => {
     const subItems: MealLogSubItem[] = calculatedItems.map((c) => ({
-      foodName: c.foodName,
-      grams: c.grams,
-      calories: c.macros.calories,
-      protein: c.macros.protein,
-      carbs: c.macros.carbs,
-      fat: c.macros.fat,
-      fiber: c.macros.fiber,
-      oilTsp: c.oilTsp,
-      gheeTsp: c.gheeTsp,
-      cookingMethod: c.cookingMethod
+      foodName: c.foodName || 'Food Item',
+      grams: c.grams || 100,
+      calories: c.macros?.calories || 0,
+      protein: c.macros?.protein || 0,
+      carbs: c.macros?.carbs || 0,
+      fat: c.macros?.fat || 0,
+      fiber: c.macros?.fiber || 0,
+      oilTsp: c.oilTsp || 0,
+      gheeTsp: c.gheeTsp || 0,
+      cookingMethod: c.cookingMethod || 'home'
     }));
 
     const entry: MealLogEntry = {
       id: `log-${Date.now()}`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       mealType,
-      dishName: thaliTitle,
+      dishName: thaliTitle || 'Deconstructed Thali',
       items: subItems,
       totalCalories,
       totalProtein,
@@ -248,16 +248,16 @@ export const MealCalculatorCard: React.FC<MealCalculatorCardProps> = ({
                     )}
                   </div>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    {item.matchedFood.category} • {item.matchedFood.region}
+                    {item.matchedFood?.category || 'General'} • {item.matchedFood?.region || 'Indian'}
                   </p>
                 </div>
 
                 <div className="flex items-center space-x-3">
                   <div className="text-right">
-                    <span className="text-lg font-black text-amber-400">{m.calories}</span>
+                    <span className="text-lg font-black text-amber-400">{m?.calories ?? 0}</span>
                     <span className="text-xs text-slate-400 ml-1">kcal</span>
                     <div className="text-[10px] text-slate-300">
-                      P: {m.protein}g | C: {m.carbs}g | F: {m.fat}g
+                      P: {m?.protein ?? 0}g | C: {m?.carbs ?? 0}g | F: {m?.fat ?? 0}g
                     </div>
                   </div>
 

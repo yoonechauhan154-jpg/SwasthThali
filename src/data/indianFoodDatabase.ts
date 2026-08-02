@@ -709,24 +709,36 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
  * 1 tsp Ghee (5ml) ~ 45 kcal, 5g fat
  */
 export function calculateAdjustedMacros(
-  food: FoodItem,
-  portionGrams: number,
-  addedOilTsp: number,
-  addedGheeTsp: number,
+  food?: FoodItem | null,
+  portionGrams: number = 100,
+  addedOilTsp: number = 0,
+  addedGheeTsp: number = 0,
   cookingMethod: 'home' | 'dhaba' | 'airfryer' = 'home'
 ) {
-  const scale = portionGrams / 100;
+  if (!food) {
+    return {
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      fiber: 0,
+      addedOilTsp: 0,
+      addedGheeTsp: 0,
+    };
+  }
+
+  const scale = (portionGrams || 100) / 100;
   
   // Base raw macros from ingredient ratio
-  let baseCalories = food.caloriesPer100g * scale;
-  let baseProtein = food.proteinPer100g * scale;
-  let baseCarbs = food.carbsPer100g * scale;
-  let baseFat = food.fatPer100g * scale;
-  let baseFiber = food.fiberPer100g * scale;
+  let baseCalories = (food.caloriesPer100g || 0) * scale;
+  let baseProtein = (food.proteinPer100g || 0) * scale;
+  let baseCarbs = (food.carbsPer100g || 0) * scale;
+  let baseFat = (food.fatPer100g || 0) * scale;
+  let baseFiber = (food.fiberPer100g || 0) * scale;
 
   // Additional oil / ghee extra calories (45 kcal per tsp, 5g fat)
-  const extraOilFat = addedOilTsp * 5;
-  const extraGheeFat = addedGheeTsp * 5;
+  const extraOilFat = (addedOilTsp || 0) * 5;
+  const extraGheeFat = (addedGheeTsp || 0) * 5;
   const totalExtraFat = extraOilFat + extraGheeFat;
   const extraFatCalories = totalExtraFat * 9;
 
@@ -751,3 +763,25 @@ export function calculateAdjustedMacros(
     addedGheeTsp,
   };
 }
+
+/**
+ * Returns top protein-per-calorie efficient Indian foods.
+ * Skips sweet/dessert items, and excludes specified food IDs.
+ */
+export function getTopProteinFoods(excludeIds: string[] = [], limit: number = 4): FoodItem[] {
+  return INDIAN_FOOD_DATABASE
+    .filter((food) => {
+      if (!food || excludeIds.includes(food.id)) return false;
+      const cat = (food.category || '').toLowerCase();
+      if (cat.includes('sweet') || cat.includes('dessert')) return false;
+      return (food.caloriesPer100g || 0) > 0 && (food.proteinPer100g || 0) > 0;
+    })
+    .map((food) => ({
+      food,
+      ratio: (food.proteinPer100g || 0) / (food.caloriesPer100g || 1)
+    }))
+    .sort((a, b) => b.ratio - a.ratio)
+    .slice(0, limit)
+    .map((item) => item.food);
+}
+

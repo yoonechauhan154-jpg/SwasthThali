@@ -1,7 +1,11 @@
 import React from 'react';
 import { Utensils, Award, Heart, Sparkles, ShieldCheck } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onSelectDish?: (dishName: string) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onSelectDish }) => {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -33,20 +37,24 @@ export const Footer: React.FC = () => {
           </span>
           <div className="flex flex-wrap gap-2 text-[11px]">
             {[
-              'Calories in 1 Roti with Ghee',
-              'Dal Tadka Macro Counter',
-              'Paneer Butter Masala Calories',
-              'Chole Bhature Fat Estimator',
-              'South Indian Sambar Calories',
-              'Poha Calories with Peanuts',
-              'Masala Dosa Macros',
-              'Hyderabadi Biryani Calorie Counter',
-              'Mother Recipe Ghee Slider',
-              'Indian Thali AI Scanner'
+              'Roti',
+              'Dal Tadka',
+              'Paneer Butter Masala',
+              'Chole Bhature',
+              'Sambar',
+              'Poha',
+              'Dosa',
+              'Biryani',
+              'Idli',
+              'Gulab Jamun'
             ].map((kw, i) => (
-              <span key={i} className="hover:text-amber-400 cursor-pointer bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+              <button
+                key={i}
+                onClick={() => onSelectDish?.(kw)}
+                className="hover:text-amber-400 cursor-pointer bg-slate-900 hover:bg-slate-800 transition-colors px-2.5 py-1 rounded border border-slate-800 text-left"
+              >
                 {kw}
-              </span>
+              </button>
             ))}
           </div>
         </div>

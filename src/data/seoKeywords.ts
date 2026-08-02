@@ -4,8 +4,7 @@ export const SEO_KEYWORD_GROUPS: SEOKeywordGroup[] = [
   {
     category: 'Dish Calorie Calculators',
     title: 'Indian Dish Specific Calorie & Macro Calculators',
-    targetPage: '/calorie-calculator/',
-    description: 'High-intent programmatic search keywords for popular Indian dishes.',
+    description: 'High-intent search keywords for popular Indian dishes.',
     keywords: [
       'how many calories in 1 roti with ghee',
       'calories in 1 katori dal tadka',
@@ -32,7 +31,6 @@ export const SEO_KEYWORD_GROUPS: SEOKeywordGroup[] = [
   {
     category: 'Indian Fitness & Macro Keywords',
     title: 'Indian Fitness, Weight Loss & Muscle Gain Keywords',
-    targetPage: '/indian-macro-guide',
     description: 'Targeted keywords for Indian Gymgoers, Vegetarians, and Weight Loss seekers.',
     keywords: [
       'high protein vegetarian indian diet plan',
@@ -60,7 +58,6 @@ export const SEO_KEYWORD_GROUPS: SEOKeywordGroup[] = [
   {
     category: 'Regional Indian Cuisine Keywords',
     title: 'Regional Indian Food Calorie Databases',
-    targetPage: '/regional-nutrition',
     description: 'Niche search terms covering North, South, East, West, and Central Indian foods.',
     keywords: [
       'north indian thali total calories',
