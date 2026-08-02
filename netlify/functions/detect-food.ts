@@ -24,8 +24,15 @@ export const handler = async (event: any) => {
   }
 
   try {
-    const body = event.body ? JSON.parse(event.body) : {};
+    const body = typeof event.body === 'string' ? JSON.parse(event.body || '{}') : (event.body || {});
     const { imageBase64, imageMimeType, textPrompt, sampleDishId } = body;
+
+    console.log('[detect-food] Netlify Function invoked:', {
+      sampleDishId,
+      hasImageBase64: !!imageBase64,
+      imageMimeType,
+      hasTextPrompt: !!textPrompt,
+    });
     const ai = getGeminiClient();
 
     const systemPrompt = `You are a world-class Indian Nutrition Scientist, Computer Vision Expert, and Master Chef specializing in Indian cuisine.

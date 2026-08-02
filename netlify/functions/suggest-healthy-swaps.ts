@@ -24,8 +24,10 @@ export const handler = async (event: any) => {
   }
 
   try {
-    const body = event.body ? JSON.parse(event.body) : {};
+    const body = typeof event.body === 'string' ? JSON.parse(event.body || '{}') : (event.body || {});
     const { currentMeal, goal } = body;
+
+    console.log('[suggest-healthy-swaps] Netlify Function invoked:', { currentMeal, goal });
     const ai = getGeminiClient();
 
     if (ai) {

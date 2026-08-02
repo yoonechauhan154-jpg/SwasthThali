@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flame, Droplet, Heart, ShieldCheck, Sparkles, PlusCircle, CheckCircle, Info, RefreshCw } from 'lucide-react';
 import { FoodItem, MealType, CookingMethod, MealLogEntry, MealLogSubItem } from '../types';
-import { INDIAN_FOOD_DATABASE, calculateAdjustedMacros } from '../data/indianFoodDatabase';
+import { INDIAN_FOOD_DATABASE, calculateAdjustedMacros, getMatchedFoodItem } from '../data/indianFoodDatabase';
 
 interface MealCalculatorCardProps {
   initialItems?: Array<{
@@ -35,7 +35,7 @@ export const MealCalculatorCard: React.FC<MealCalculatorCardProps> = ({
       id: `item-${idx}-${Date.now()}`,
       foodName: item?.dishName || 'Food Item',
       hindiName: item?.hindiName,
-      matchedFood: INDIAN_FOOD_DATABASE.find((f) => f.id === item?.matchedFoodId) || INDIAN_FOOD_DATABASE[0],
+      matchedFood: getMatchedFoodItem(item?.matchedFoodId, item?.dishName),
       grams: item?.estimatedGrams || 150,
       oilTsp: item?.oilTsp ?? 1.0,
       gheeTsp: item?.gheeTsp ?? 0.5,

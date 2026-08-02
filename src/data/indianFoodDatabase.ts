@@ -703,6 +703,50 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
 ];
 
 /**
+ * Safely looks up a food item from INDIAN_FOOD_DATABASE by ID or dish name.
+ * If the ID or name is not found (ID mismatch), logs a warning and returns
+ * the closest category default or general fallback item instead of returning zero macros.
+ */
+export function getMatchedFoodItem(matchedFoodId?: string, dishName?: string): FoodItem {
+  if (matchedFoodId) {
+    const exact = INDIAN_FOOD_DATABASE.find((f) => f.id === matchedFoodId);
+    if (exact) return exact;
+  }
+
+  if (dishName) {
+    const nameLower = dishName.toLowerCase();
+    const nameMatch = INDIAN_FOOD_DATABASE.find((f) =>
+      f.name.toLowerCase().includes(nameLower) ||
+      nameLower.includes(f.name.toLowerCase()) ||
+      (f.hindiName && (f.hindiName.includes(dishName) || dishName.includes(f.hindiName))) ||
+      f.id.replace(/_/g, ' ').includes(nameLower) ||
+      nameLower.replace(/\s+/g, '_').includes(f.id)
+    );
+    if (nameMatch) return nameMatch;
+
+    if (nameLower.includes('roti') || nameLower.includes('naan') || nameLower.includes('paratha') || nameLower.includes('bhatura') || nameLower.includes('chapati')) {
+      const breadMatch = INDIAN_FOOD_DATABASE.find((f) => f.category === 'Breads');
+      if (breadMatch) return breadMatch;
+    }
+    if (nameLower.includes('rice') || nameLower.includes('pulao') || nameLower.includes('biryani')) {
+      const riceMatch = INDIAN_FOOD_DATABASE.find((f) => f.category === 'Rice & Biryani');
+      if (riceMatch) return riceMatch;
+    }
+    if (nameLower.includes('dosa') || nameLower.includes('idli') || nameLower.includes('vada') || nameLower.includes('sambar')) {
+      const southMatch = INDIAN_FOOD_DATABASE.find((f) => f.category === 'South Indian' || f.region === 'South Indian');
+      if (southMatch) return southMatch;
+    }
+    if (nameLower.includes('paneer') || nameLower.includes('dal') || nameLower.includes('curry') || nameLower.includes('chole') || nameLower.includes('masala')) {
+      const curryMatch = INDIAN_FOOD_DATABASE.find((f) => f.category === 'Dal & Curry' || f.category === 'Sabzi');
+      if (curryMatch) return curryMatch;
+    }
+  }
+
+  console.warn(`[Nutrition Lookup Warning] ID or name mismatch for id="${matchedFoodId}", dishName="${dishName}". Using default Indian food fallback.`);
+  return INDIAN_FOOD_DATABASE[0];
+}
+
+/**
  * Calculates adjusted macros based on portion multiplier, oil added, and ghee added.
  * Standard Oil/Ghee density:
  * 1 tsp Oil (5ml) ~ 45 kcal, 5g fat
@@ -715,26 +759,16 @@ export function calculateAdjustedMacros(
   addedGheeTsp: number = 0,
   cookingMethod: 'home' | 'dhaba' | 'airfryer' = 'home'
 ) {
-  if (!food) {
-    return {
-      calories: 0,
-      protein: 0,
-      carbs: 0,
-      fat: 0,
-      fiber: 0,
-      addedOilTsp: 0,
-      addedGheeTsp: 0,
-    };
-  }
+  const targetFood = food && food.caloriesPer100g ? food : getMatchedFoodItem(food?.id, food?.name);
 
   const scale = (portionGrams || 100) / 100;
   
   // Base raw macros from ingredient ratio
-  let baseCalories = (food.caloriesPer100g || 0) * scale;
-  let baseProtein = (food.proteinPer100g || 0) * scale;
-  let baseCarbs = (food.carbsPer100g || 0) * scale;
-  let baseFat = (food.fatPer100g || 0) * scale;
-  let baseFiber = (food.fiberPer100g || 0) * scale;
+  let baseCalories = (targetFood.caloriesPer100g || 95) * scale;
+  let baseProtein = (targetFood.proteinPer100g || 4) * scale;
+  let baseCarbs = (targetFood.carbsPer100g || 12) * scale;
+  let baseFat = (targetFood.fatPer100g || 3) * scale;
+  let baseFiber = (targetFood.fiberPer100g || 2) * scale;
 
   // Additional oil / ghee extra calories (45 kcal per tsp, 5g fat)
   const extraOilFat = (addedOilTsp || 0) * 5;
