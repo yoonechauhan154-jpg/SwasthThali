@@ -12,6 +12,24 @@ export const AboutPage: React.FC = () => {
           content="Learn about SwasthThali's mission to simplify calorie tracking for traditional Indian diets, powered by AI vision and ICMR nutrition standards."
         />
         <link rel="canonical" href="https://swasththali.netlify.app/about" />
+        <meta property="og:title" content="About Us | SwasthThali - Indian AI Food & Calorie Tracker" />
+        <meta property="og:description" content="Learn about SwasthThali's mission to simplify calorie tracking for traditional Indian diets, powered by AI vision and ICMR nutrition standards." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://swasththali.netlify.app/about" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+        <meta property="og:site_name" content="SwasthThali" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Us | SwasthThali - Indian AI Food & Calorie Tracker" />
+        <meta name="twitter:description" content="Learn about SwasthThali's mission to simplify calorie tracking for traditional Indian diets, powered by AI vision and ICMR nutrition standards." />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swasththali.netlify.app/' },
+            { '@type': 'ListItem', position: 2, name: 'About' },
+          ]
+        })}</script>
       </Helmet>
 
       {/* Hero */}

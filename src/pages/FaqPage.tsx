@@ -91,7 +91,25 @@ export const FaqPage: React.FC = () => {
           content="Find answers to common questions about SwasthThali AI food scanner, Indian food calorie accuracy, hidden oil calculations, and vegetarian protein optimization."
         />
         <link rel="canonical" href="https://swasththali.netlify.app/faq" />
+        <meta property="og:title" content="Frequently Asked Questions (FAQ) | SwasthThali" />
+        <meta property="og:description" content="Find answers to common questions about SwasthThali AI food scanner, Indian food calorie accuracy, hidden oil calculations, and vegetarian protein optimization." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://swasththali.netlify.app/faq" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+        <meta property="og:site_name" content="SwasthThali" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Frequently Asked Questions (FAQ) | SwasthThali" />
+        <meta name="twitter:description" content="Find answers to common questions about SwasthThali AI food scanner, Indian food calorie accuracy, hidden oil calculations, and vegetarian protein optimization." />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swasththali.netlify.app/' },
+            { '@type': 'ListItem', position: 2, name: 'FAQ' },
+          ]
+        })}</script>
       </Helmet>
 
       {/* Hero Header */}

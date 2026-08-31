@@ -31,6 +31,24 @@ export const BlogListPage: React.FC = () => {
           content="Explore comprehensive Indian food calorie guides, protein breakdown, oil & ghee math, and weight loss tips tailored for traditional Indian diets."
         />
         <link rel="canonical" href="https://swasththali.netlify.app/blog" />
+        <meta property="og:title" content="Indian Food Calorie & Nutrition Blog | SwasthThali" />
+        <meta property="og:description" content="Explore comprehensive Indian food calorie guides, protein breakdown, oil & ghee math, and weight loss tips tailored for traditional Indian diets." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://swasththali.netlify.app/blog" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+        <meta property="og:site_name" content="SwasthThali" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Indian Food Calorie & Nutrition Blog | SwasthThali" />
+        <meta name="twitter:description" content="Explore comprehensive Indian food calorie guides, protein breakdown, oil & ghee math, and weight loss tips tailored for traditional Indian diets." />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swasththali.netlify.app/' },
+            { '@type': 'ListItem', position: 2, name: 'Blog' },
+          ]
+        })}</script>
       </Helmet>
 
       {/* Hero Header */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Navbar } from './components/Navbar';
 import { FoodScanner } from './components/FoodScanner';
 import { Dashboard } from './components/Dashboard';
@@ -186,6 +186,21 @@ export default function App() {
                 path="/"
                 element={
                   <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+                    <Helmet>
+                      <title>SwasthThali - Free AI Indian Food Calorie &amp; Macro Counter</title>
+                      <meta name="description" content="100% Free AI Indian Food Calorie &amp; Macro Counter with Precision Oil &amp; Ghee Sliders. Track Dal, Roti, Rice, Thalis, and Street Food accurately." />
+                      <link rel="canonical" href="https://swasththali.netlify.app/" />
+                      <meta property="og:title" content="SwasthThali - Free AI Indian Food Calorie &amp; Macro Counter" />
+                      <meta property="og:description" content="Track calories, protein, carbs, fat, oil, and ghee in Indian thalis, rotis, dals, and street food with zero subscription fees." />
+                      <meta property="og:type" content="website" />
+                      <meta property="og:url" content="https://swasththali.netlify.app/" />
+                      <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+                      <meta name="twitter:card" content="summary_large_image" />
+                      <meta name="twitter:title" content="SwasthThali - Free AI Indian Food Calorie &amp; Macro Counter" />
+                      <meta name="twitter:description" content="Track calories, protein, carbs, fat, oil, and ghee in Indian thalis, rotis, dals, and street food with zero subscription fees." />
+                      <meta name="twitter:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
+                    </Helmet>
+                    <h1 className="sr-only">Indian Food Nutrition Engine - Free AI Calorie &amp; Macro Counter</h1>
                     {activeTab === 'database' && <FoodDatabaseBrowser searchQuery={searchQuery} />}
 
                     {activeTab === 'dashboard' && (

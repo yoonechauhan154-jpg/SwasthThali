@@ -12,6 +12,22 @@ export const TermsPage: React.FC = () => {
           content="SwasthThali Terms & Conditions of Use. Medical disclaimer, acceptable usage, intellectual property, and service terms."
         />
         <link rel="canonical" href="https://swasththali.netlify.app/terms" />
+        <meta property="og:title" content="Terms & Conditions | SwasthThali" />
+        <meta property="og:description" content="SwasthThali Terms & Conditions of Use. Medical disclaimer, acceptable usage, intellectual property, and service terms." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://swasththali.netlify.app/terms" />
+        <meta property="og:site_name" content="SwasthThali" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Terms & Conditions | SwasthThali" />
+        <meta name="twitter:description" content="SwasthThali Terms & Conditions of Use. Medical disclaimer, acceptable usage, intellectual property, and service terms." />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swasththali.netlify.app/' },
+            { '@type': 'ListItem', position: 2, name: 'Terms & Conditions' },
+          ]
+        })}</script>
       </Helmet>
 
       <div className="space-y-3 border-b border-slate-800 pb-6">
