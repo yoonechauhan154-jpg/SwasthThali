@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync } from 'fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -16,6 +16,9 @@ import { TermsPage } from './src/pages/TermsPage';
 
 const DIST = resolve(process.cwd(), 'dist');
 const BASE = 'https://swasththali.netlify.app';
+
+// Read the Vite-built index.html as template — contains correct hashed CSS/JS asset tags
+const viteTemplate = readFileSync(resolve(DIST, 'index.html'), 'utf-8');
 
 const slugs = [
   'how-many-calories-in-1-roti-chapati-with-without-ghee',
@@ -50,21 +53,13 @@ const routes = [
   '/terms',
 ];
 
-const template = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#020617" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/></svg>" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1294547754833643" crossorigin="anonymous"></script>
-    %%HEAD%%
-  </head>
-  <body>
-    <div id="root">%%APP%%</div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>`;
+// The Vite-built template has: <head>...</head><body><div id="root">...</div><script type="module" src="/assets/index-[hash].js"></script></body>
+// We need to:
+// 1. Insert route-specific meta/schema tags just before </head>
+// 2. Replace the content inside <div id="root">...</div> with rendered React HTML
+const headCloseTag = '</head>';
+const rootOpenTag = '<div id="root">';
+const rootCloseTag = '</div>';
 
 const defaultProfile = {
   name: 'Yoone',
@@ -189,7 +184,7 @@ for (const route of routes) {
     linkMatches.forEach(m => { cleanAppHtml = cleanAppHtml.replace(m, ''); });
     scriptMatches.forEach(m => { cleanAppHtml = cleanAppHtml.replace(m, ''); });
 
-    // Build head tags - use manual route data for title/description since Helmet doesn't populate during SSR
+    // Append route-specific meta/schema tags just before </head>
     const routeTitle = routeTitles[route] || 'SwasthThali';
     const routeDesc = routeDescriptions[route] || '';
     let headTags = `<title>${routeTitle}</title>`;
@@ -205,13 +200,20 @@ for (const route of routes) {
     headTags += `<meta name="twitter:title" content="${routeTitle}" />`;
     headTags += `<meta name="twitter:description" content="${routeDesc}" />`;
     headTags += `<meta name="twitter:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />`;
-    // Add any LD+JSON scripts from Helmet
     scriptMatches.forEach(m => { headTags += m; });
     headTags += `<script type="application/ld+json">${JSON.stringify(orgSchema)}</script>`;
 
-    const html = template
-      .replace('%%HEAD%%', headTags)
-      .replace('%%APP%%', cleanAppHtml);
+    // Start from the Vite-built template (has correct hashed CSS/JS assets)
+    let html = viteTemplate;
+
+    // 1. Replace <title> in existing template with route-specific title
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${routeTitle}</title>`);
+
+    // 2. Insert additional meta/schema tags just before </head>
+    html = html.replace(headCloseTag, headTags + headCloseTag);
+
+    // 3. Replace the content inside <div id="root">...</div> with rendered React HTML
+    html = html.replace(/<div id="root">[\s\S]*?<\/div>/, `<div id="root">${cleanAppHtml}</div>`);
 
       let outputPath: string;
       if (route === '/') {
