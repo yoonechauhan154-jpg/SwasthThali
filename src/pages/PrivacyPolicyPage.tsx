@@ -11,11 +11,11 @@ export const PrivacyPolicyPage: React.FC = () => {
           name="description"
           content="SwasthThali Privacy Policy. Learn how we handle local data storage, AI food image scanning, Google AdSense cookies, and user data privacy."
         />
-        <link rel="canonical" href="https://swasththali.netlify.app/privacy-policy" />
+        <link rel="canonical" href="https://swasththali.netlify.app/privacy-policy/" />
         <meta property="og:title" content="Privacy Policy | SwasthThali" />
         <meta property="og:description" content="SwasthThali Privacy Policy. Learn how we handle local data storage, AI food image scanning, Google AdSense cookies, and user data privacy." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://swasththali.netlify.app/privacy-policy" />
+        <meta property="og:url" content="https://swasththali.netlify.app/privacy-policy/" />
         <meta property="og:site_name" content="SwasthThali" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Privacy Policy | SwasthThali" />

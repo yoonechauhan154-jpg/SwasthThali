@@ -11,11 +11,11 @@ export const TermsPage: React.FC = () => {
           name="description"
           content="SwasthThali Terms & Conditions of Use. Medical disclaimer, acceptable usage, intellectual property, and service terms."
         />
-        <link rel="canonical" href="https://swasththali.netlify.app/terms" />
+        <link rel="canonical" href="https://swasththali.netlify.app/terms/" />
         <meta property="og:title" content="Terms & Conditions | SwasthThali" />
         <meta property="og:description" content="SwasthThali Terms & Conditions of Use. Medical disclaimer, acceptable usage, intellectual property, and service terms." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://swasththali.netlify.app/terms" />
+        <meta property="og:url" content="https://swasththali.netlify.app/terms/" />
         <meta property="og:site_name" content="SwasthThali" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Terms & Conditions | SwasthThali" />

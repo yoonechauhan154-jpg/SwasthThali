@@ -63,7 +63,7 @@ export const BlogPostPage: React.FC = () => {
         <h1 className="text-2xl font-bold text-white">Article Not Found</h1>
         <p className="text-slate-400 text-sm">The requested nutrition article could not be located.</p>
         <Link
-          to="/blog"
+          to="/blog/"
           className="inline-flex items-center space-x-2 px-5 py-2.5 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl hover:bg-amber-400 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -97,7 +97,7 @@ export const BlogPostPage: React.FC = () => {
     dateModified: post.publishDate,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://swasththali.netlify.app/blog/${post.slug}`
+      '@id': `https://swasththali.netlify.app/blog/${post.slug}/`
     },
     keywords: post.targetKeyword,
     articleSection: post.category,
@@ -109,7 +109,7 @@ export const BlogPostPage: React.FC = () => {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swasththali.netlify.app/' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://swasththali.netlify.app/blog' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://swasththali.netlify.app/blog/' },
       { '@type': 'ListItem', position: 3, name: post.title },
     ]
   };
@@ -284,11 +284,11 @@ export const BlogPostPage: React.FC = () => {
         <title>{post.title} | SwasthThali</title>
         <meta name="description" content={post.metaDescription} />
         <meta name="keywords" content={post.targetKeyword} />
-        <link rel="canonical" href={`https://swasththali.netlify.app/blog/${post.slug}`} />
+        <link rel="canonical" href={`https://swasththali.netlify.app/blog/${post.slug}/`} />
         <meta property="og:title" content={`${post.title} | SwasthThali`} />
         <meta property="og:description" content={post.metaDescription} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://swasththali.netlify.app/blog/${post.slug}`} />
+        <meta property="og:url" content={`https://swasththali.netlify.app/blog/${post.slug}/`} />
         <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
         <meta property="og:site_name" content="SwasthThali" />
         <meta property="article:published_time" content={post.publishDate} />
@@ -308,7 +308,7 @@ export const BlogPostPage: React.FC = () => {
       <nav className="flex items-center space-x-2 text-xs text-slate-400" aria-label="Breadcrumb">
         <Link to="/" className="hover:text-amber-400 transition-colors">Home</Link>
         <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-        <Link to="/blog" className="hover:text-amber-400 transition-colors">Blog</Link>
+        <Link to="/blog/" className="hover:text-amber-400 transition-colors">Blog</Link>
         <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
         <span className="text-slate-200 truncate max-w-xs sm:max-w-md">{post.title}</span>
       </nav>
@@ -464,7 +464,7 @@ export const BlogPostPage: React.FC = () => {
             {relatedPosts.map((rPost) => (
               <Link
                 key={rPost.slug}
-                to={`/blog/${rPost.slug}`}
+                to={`/blog/${rPost.slug}/`}
                 className="bg-slate-900 border border-slate-800 hover:border-amber-500/40 p-4 rounded-xl space-y-2 transition-all block group"
               >
                 <span className="text-[10px] uppercase font-bold text-amber-400 block">{rPost.category}</span>
@@ -483,7 +483,7 @@ export const BlogPostPage: React.FC = () => {
         <p className="text-xs text-slate-400">
           <strong className="text-slate-200">About SwasthThali:</strong> SwasthThali is a free, open-source AI-powered Indian food calorie and macro counter built for Indian households. All nutrition data is benchmarked against ICMR-NIN guidelines.
         </p>
-        <Link to="/about" className="text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors">
+        <Link to="/about/" className="text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors">
           Learn more about our mission →
         </Link>
       </div>
@@ -491,7 +491,7 @@ export const BlogPostPage: React.FC = () => {
       {/* Back to Blog button */}
       <div className="pt-4">
         <Link
-          to="/blog"
+          to="/blog/"
           className="inline-flex items-center space-x-2 text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />

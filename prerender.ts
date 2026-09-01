@@ -189,11 +189,12 @@ for (const route of routes) {
     const routeDesc = routeDescriptions[route] || '';
     let headTags = `<title>${routeTitle}</title>`;
     headTags += `<meta name="description" content="${routeDesc}" />`;
-    headTags += `<link rel="canonical" href="${BASE}${route === '/' ? '' : route}" />`;
+    const canonicalUrl = route === '/' ? `${BASE}/` : `${BASE}${route}/`;
+    headTags += `<link rel="canonical" href="${canonicalUrl}" />`;
     headTags += `<meta property="og:title" content="${routeTitle}" />`;
     headTags += `<meta property="og:description" content="${routeDesc}" />`;
     headTags += `<meta property="og:type" content="${route.startsWith('/blog/') ? 'article' : 'website'}" />`;
-    headTags += `<meta property="og:url" content="${BASE}${route === '/' ? '' : route}" />`;
+    headTags += `<meta property="og:url" content="${canonicalUrl}" />`;
     headTags += `<meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />`;
     headTags += `<meta property="og:site_name" content="SwasthThali" />`;
     headTags += `<meta name="twitter:card" content="summary_large_image" />`;
@@ -206,10 +207,14 @@ for (const route of routes) {
     // Start from the Vite-built template (has correct hashed CSS/JS assets)
     let html = viteTemplate;
 
-    // 1. Replace <title> in existing template with route-specific title
-    html = html.replace(/<title>[^<]*<\/title>/, `<title>${routeTitle}</title>`);
+    // 1. Strip existing Helmet tags from Vite template to avoid duplicates
+    html = html.replace(/<title>[^<]*<\/title>/, '');
+    html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/g, '');
+    html = html.replace(/<meta\s+property="og:[^"]*"\s+content="[^"]*"\s*\/?>/g, '');
+    html = html.replace(/<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*\/?>/g, '');
+    html = html.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/g, '');
 
-    // 2. Insert additional meta/schema tags just before </head>
+    // 2. Insert route-specific meta/schema tags just before </head>
     html = html.replace(headCloseTag, headTags + headCloseTag);
 
     // 3. Replace the content inside <div id="root">...</div> with rendered React HTML

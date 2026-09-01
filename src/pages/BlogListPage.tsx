@@ -30,11 +30,11 @@ export const BlogListPage: React.FC = () => {
           name="description"
           content="Explore comprehensive Indian food calorie guides, protein breakdown, oil & ghee math, and weight loss tips tailored for traditional Indian diets."
         />
-        <link rel="canonical" href="https://swasththali.netlify.app/blog" />
+        <link rel="canonical" href="https://swasththali.netlify.app/blog/" />
         <meta property="og:title" content="Indian Food Calorie & Nutrition Blog | SwasthThali" />
         <meta property="og:description" content="Explore comprehensive Indian food calorie guides, protein breakdown, oil & ghee math, and weight loss tips tailored for traditional Indian diets." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://swasththali.netlify.app/blog" />
+        <meta property="og:url" content="https://swasththali.netlify.app/blog/" />
         <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1200&q=80" />
         <meta property="og:site_name" content="SwasthThali" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -118,7 +118,7 @@ export const BlogListPage: React.FC = () => {
                 </div>
 
                 <h2 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">
-                  <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                  <Link to={`/blog/${post.slug}/`}>{post.title}</Link>
                 </h2>
 
                 <p className="text-slate-400 text-xs leading-relaxed line-clamp-3">
@@ -132,7 +132,7 @@ export const BlogListPage: React.FC = () => {
                   <span>{post.publishDate}</span>
                 </span>
                 <Link
-                  to={`/blog/${post.slug}`}
+                   to={`/blog/${post.slug}/`}
                   className="font-bold text-amber-400 hover:text-amber-300 flex items-center space-x-1 transition-colors group-hover:translate-x-1 duration-200"
                 >
                   <span>Read Article</span>

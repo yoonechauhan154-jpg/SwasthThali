@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <Link
-              to="/blog"
+              to="/blog/"
               className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all ${
                 location.pathname.startsWith('/blog')
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20'
@@ -162,7 +162,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>Trends</span>
           </button>
           <Link
-            to="/blog"
+            to="/blog/"
             className={`flex flex-col items-center py-1 px-2 ${location.pathname.startsWith('/blog') ? 'text-orange-400 font-bold' : ''}`}
           >
             <BookOpen className="w-4 h-4 mb-0.5" />

@@ -40,15 +40,15 @@ export const Footer: React.FC<FooterProps> = ({ onSelectDish }) => {
 
           {/* Quick Links */}
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-300">
-            <Link to="/blog" className="hover:text-amber-400 transition-colors">Blog</Link>
+            <Link to="/blog/" className="hover:text-amber-400 transition-colors">Blog</Link>
             <span>•</span>
-            <Link to="/faq" className="hover:text-amber-400 transition-colors">FAQ</Link>
+            <Link to="/faq/" className="hover:text-amber-400 transition-colors">FAQ</Link>
             <span>•</span>
-            <Link to="/about" className="hover:text-amber-400 transition-colors">About Us</Link>
+            <Link to="/about/" className="hover:text-amber-400 transition-colors">About Us</Link>
             <span>•</span>
-            <Link to="/privacy-policy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
+            <Link to="/privacy-policy/" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
             <span>•</span>
-            <Link to="/terms" className="hover:text-amber-400 transition-colors">Terms & Conditions</Link>
+            <Link to="/terms/" className="hover:text-amber-400 transition-colors">Terms & Conditions</Link>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectDish }) => {
             {keywordLinks.map((item, i) => (
               <Link
                 key={i}
-                to={`/blog/${item.slug}`}
+                to={`/blog/${item.slug}/`}
                 className="hover:text-amber-400 bg-slate-900 hover:bg-slate-800 transition-colors px-2.5 py-1 rounded border border-slate-800 text-left"
               >
                 {item.name}
