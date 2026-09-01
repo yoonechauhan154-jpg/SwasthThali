@@ -3,7 +3,7 @@ import { BlogPost } from '../types';
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-many-calories-in-1-roti-chapati-with-without-ghee',
-    title: 'How Many Calories in 1 Roti/Chapati (With & Without Ghee)?',
+    title: 'Calories in 1 Roti (With & Without Ghee)',
     metaDescription: 'Discover exact calories and macros in 1 roti or chapati with and without ghee. Compare dry roti, ghee chapati, and paratha with real ICMR data.',
     targetKeyword: 'calories in 1 roti with ghee',
     category: 'Calorie Guides',
@@ -54,7 +54,7 @@ Want to track your rotis with custom ghee and oil sliders? Try the **SwasthThali
   },
   {
     slug: 'dal-tadka-calories-and-protein-complete-katori-guide',
-    title: 'Dal Tadka Calories & Protein: Complete Katori Serving Guide',
+    title: 'Dal Tadka Calories & Protein: Katori Guide',
     metaDescription: 'Complete nutrition guide for Dal Tadka and Toor Dal. Learn exact calories, protein per katori, tadka oil math, and how to increase protein.',
     targetKeyword: 'calories in 1 katori dal tadka',
     category: 'Calorie Guides',
@@ -111,7 +111,7 @@ Use SwasthThali's **Oil & Ghee Sliders** to adjust the exact teaspoon count for 
   },
   {
     slug: 'veg-biryani-calories-per-plate-hyderabadi-style',
-    title: 'Veg Biryani Calories Per Plate: Hyderabadi Style Nutrition Guide',
+    title: 'Veg Biryani Calories Per Plate (Hyderabadi)',
     metaDescription: 'Detailed calorie and macro breakdown for Hyderabadi Veg Biryani. Learn how rice portion, paneer, and fried onions impact your macros.',
     targetKeyword: 'veg biryani calories per plate',
     category: 'Regional Cuisine',
@@ -159,7 +159,7 @@ Snap a quick photo with the SwasthThali AI Scanner or search Veg Biryani in our 
   },
   {
     slug: 'palak-paneer-vs-paneer-butter-masala-calories-compared',
-    title: 'Palak Paneer vs Paneer Butter Masala: Calorie & Macro Comparison',
+    title: 'Palak Paneer vs Butter Masala Calories',
     metaDescription: 'Compare Palak Paneer vs Paneer Butter Masala calories, protein, and fat. Find out which paneer dish is best for weight loss and muscle building.',
     targetKeyword: 'palak paneer vs paneer butter masala calories',
     category: 'Calorie Guides',
@@ -207,7 +207,7 @@ Customize paneer quantities and gravy richness in the SwasthThali Food Engine to
   },
   {
     slug: 'samosa-calories-deep-fried-vs-baked-air-fried',
-    title: 'Samosa Calories: Deep Fried vs. Air Fried & Baked Comparison',
+    title: 'Samosa Calories: Deep Fried vs Air Fried',
     metaDescription: 'Detailed calorie guide for Indian Samosas. Compare deep-fried street samosas vs air-fried and baked samosas with exact fat and carb macros.',
     targetKeyword: 'samosa calories deep fried vs air fried',
     category: 'Healthy Cooking & Oils',
@@ -253,7 +253,7 @@ Scan your tea-time snacks with the SwasthThali AI Scanner for accurate calorie l
   },
   {
     slug: 'steamed-rice-vs-brown-rice-which-is-better-for-weight-loss',
-    title: 'Steamed Rice vs Brown Rice: Which is Better for Weight Loss?',
+    title: 'Steamed Rice vs Brown Rice: Weight Loss',
     metaDescription: 'Steamed white rice vs brown rice calorie, carb, and fiber comparison. Find out which rice variety supports faster weight loss and better blood sugar.',
     targetKeyword: 'steamed rice vs brown rice calories',
     category: 'Calorie Guides',
@@ -301,7 +301,7 @@ Select raw or cooked rice weights in the SwasthThali Food Engine to track exact 
   },
   {
     slug: 'idli-and-dosa-calories-south-indian-breakfast-guide',
-    title: 'Idli & Dosa Calories: South Indian Breakfast Nutrition Guide',
+    title: 'Idli & Dosa Calories: Breakfast Guide',
     metaDescription: 'Complete calorie guide for Idli, Masala Dosa, Plain Dosa, and Uttapam. Learn exact macros, chutney calories, and how to optimize for protein.',
     targetKeyword: 'idli and dosa calories',
     category: 'Regional Cuisine',
@@ -350,7 +350,7 @@ Use SwasthThali's pre-loaded South Indian database items to log your breakfast i
   },
   {
     slug: 'chole-rajma-calories-protein-complete-guide',
-    title: 'Chole & Rajma Calories & Protein: Complete Guide for Vegetarians',
+    title: 'Chole & Rajma Calories & Protein Guide',
     metaDescription: 'Detailed nutrition guide for Chole Masala and Rajma Masala. Learn protein content, calorie counts, and how to pair with rice or bhature.',
     targetKeyword: 'chole rajma calories and protein',
     category: 'Protein & Macros',
@@ -393,7 +393,7 @@ Keep your macro targets on track with SwasthThali's precision portion calculator
   },
   {
     slug: 'poha-calories-with-peanuts-healthy-or-not',
-    title: 'Poha Calories with Peanuts: Is it Healthy for Weight Loss?',
+    title: 'Poha Calories with Peanuts: Healthy?',
     metaDescription: 'Find out exact calories and macros in 1 plate of Poha with peanuts. Learn how oil, peanuts, and sev affect your weight loss goals.',
     targetKeyword: 'poha calories with peanuts',
     category: 'Calorie Guides',
@@ -440,7 +440,7 @@ Use SwasthThali to customize your poha serving size and track your daily macros 
   },
   {
     slug: 'gulab-jamun-and-indian-sweets-the-real-calorie-count',
-    title: 'Gulab Jamun & Indian Sweets: The Real Calorie & Sugar Count',
+    title: 'Gulab Jamun & Indian Sweets: Calorie Count',
     metaDescription: 'Complete calorie guide for Indian sweets including Gulab Jamun, Kaju Katli, Rasgulla, and Jalebi. Learn how to manage festival sweets on a diet.',
     targetKeyword: 'gulab jamun calories indian sweets',
     category: 'Calorie Guides',
@@ -490,7 +490,7 @@ Log your dessert portions in SwasthThali to keep your diet balanced during celeb
   },
   {
     slug: 'high-protein-vegetarian-indian-diet-plan-100g-protein-guide',
-    title: 'High-Protein Vegetarian Indian Diet Plan (100g Protein Target)',
+    title: 'High-Protein Vegetarian Diet Plan (100g)',
     metaDescription: 'Complete 100g protein vegetarian Indian diet plan. Detailed meal plan using paneer, soya, dal, dahi, and sattu without expensive supplements.',
     targetKeyword: 'high protein vegetarian indian diet plan',
     category: 'Protein & Macros',
@@ -554,7 +554,7 @@ Use our new **Vegetarian Protein Optimizer** tool directly on your Dashboard to 
   },
   {
     slug: 'ghee-vs-oil-which-has-fewer-calories-for-indian-cooking',
-    title: 'Ghee vs. Oil: Which Has Fewer Calories for Indian Cooking?',
+    title: 'Ghee vs Oil: Which Has Fewer Calories?',
     metaDescription: 'Ghee vs mustard oil vs sunflower oil calorie breakdown. Learn smoke points, fat profiles, and how to track cooking fats accurately.',
     targetKeyword: 'ghee vs oil calories indian cooking',
     category: 'Healthy Cooking & Oils',
@@ -604,7 +604,7 @@ SwasthThali features dedicated **Teaspoon Oil & Ghee Sliders** for every dish, a
   },
   {
     slug: 'sambar-calories-and-nutrition-breakdown',
-    title: 'Sambar Calories & Nutrition Breakdown: A Low-Calorie Superfood',
+    title: 'Sambar Calories & Nutrition Breakdown',
     metaDescription: 'Detailed calorie and nutrition breakdown for South Indian Sambar. Learn why tamarind lentil stew is ideal for fat loss and gut health.',
     targetKeyword: 'sambar calories and nutrition',
     category: 'Regional Cuisine',
@@ -643,7 +643,7 @@ Browse South Indian regional database items in the SwasthThali Food Engine and t
   },
   {
     slug: 'aloo-paratha-with-butter-full-calorie-count',
-    title: 'Aloo Paratha with Butter: Full Calorie & Macro Breakdown',
+    title: 'Aloo Paratha with Butter: Calorie Breakdown',
     metaDescription: 'Complete calorie breakdown for Aloo Paratha with butter, dahi, and pickle. Learn exact macros for 1 vs 2 parathas and how to reduce calories.',
     targetKeyword: 'aloo paratha with butter calories',
     category: 'Calorie Guides',
@@ -692,7 +692,7 @@ Calculate exact portion weights and butter toppings with SwasthThali's meal calc
   },
   {
     slug: 'pav-bhaji-calories-mumbai-street-food-guide',
-    title: 'Pav Bhaji Calories: Mumbai Street Food Nutrition Guide',
+    title: 'Pav Bhaji Calories: Street Food Guide',
     metaDescription: 'Detailed calorie guide for Mumbai Pav Bhaji. Learn exact calories in butter bhaji, butter pav, and how to enjoy street food healthily.',
     targetKeyword: 'pav bhaji calories mumbai street food',
     category: 'Regional Cuisine',
@@ -740,7 +740,7 @@ Scan street food or home recipes with the SwasthThali AI Scanner to calculate yo
   },
   {
     slug: 'chai-calories-how-much-sugar-and-milk-adds-up',
-    title: 'Chai Calories: How Sugar & Milk Add Up in Indian Tea',
+    title: 'Chai Calories: Sugar & Milk in Indian Tea',
     metaDescription: 'Find out exact calories in 1 cup of Indian Masala Chai with full cream milk, toned milk, and sugar. Track your daily tea habit accurately.',
     targetKeyword: 'chai calories sugar and milk',
     category: 'Calorie Guides',
@@ -791,7 +791,7 @@ Keep your tea logs accurate using SwasthThali's quick beverage calculators!`
   },
   {
     slug: 'diabetic-friendly-low-gi-indian-foods-list',
-    title: 'Diabetic-Friendly Low GI Indian Foods List & Nutrition Guide',
+    title: 'Diabetic-Friendly Low GI Indian Foods',
     metaDescription: 'Complete guide to low glycemic index (GI) Indian foods for diabetes management and steady blood sugar. Learn smart food swaps for roti, rice, and snacks.',
     targetKeyword: 'low gi indian foods for diabetes',
     category: 'Health & Weight Loss',
@@ -839,7 +839,7 @@ Set custom carb and fiber targets in SwasthThali to keep your daily nutrition al
   },
   {
     slug: 'air-fryer-vs-deep-fried-indian-snacks-calorie-comparison',
-    title: 'Air Fryer vs. Deep-Fried Indian Snacks: Calorie & Fat Comparison',
+    title: 'Air Fryer vs Deep-Fried Snacks: Calories',
     metaDescription: 'Compare air fryer vs deep fried Indian snacks like Samosa, Pakora, Tikki, and Bhajia. Learn how air frying saves up to 70% fat calories.',
     targetKeyword: 'air fryer vs deep fried indian snacks',
     category: 'Healthy Cooking & Oils',
@@ -888,7 +888,7 @@ Select the **Air Fryer** cooking mode toggle in SwasthThali's meal calculators t
   },
   {
     slug: 'north-indian-thali-total-calorie-breakdown',
-    title: 'North Indian Thali: Total Calorie & Macro Breakdown',
+    title: 'North Indian Thali: Calorie Breakdown',
     metaDescription: 'Complete calorie breakdown of a traditional North Indian Thali. Learn exact calories in dal, sabzi, roti, rice, dahi, sweet, and salad combined.',
     targetKeyword: 'north indian thali total calories',
     category: 'Calorie Guides',
@@ -933,7 +933,7 @@ Use our **Deconstructed Thali Analyzer** in the SwasthThali App to break down mi
   },
   {
     slug: 'how-to-count-hidden-oil-and-ghee-in-indian-cooking',
-    title: 'How to Count Hidden Oil & Ghee in Indian Cooking Accurately',
+    title: 'How to Count Hidden Oil & Ghee in Cooking',
     metaDescription: 'Learn how to detect and count hidden cooking oil, ghee, and tempering fat in Indian food. Practical tips for home cooks and restaurant meals.',
     targetKeyword: 'count hidden oil ghee indian cooking',
     category: 'Healthy Cooking & Oils',
